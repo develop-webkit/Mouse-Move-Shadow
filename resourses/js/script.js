@@ -4,6 +4,7 @@ const heroEL = document.querySelector(".hero");
 const h1El = document.querySelector("h1");
 let xValue = 0;
 let yValue = 0;
+const walk = 20;
 
 function debounce(func, wait = 2, immediate = true) {
     let timeout;
@@ -27,35 +28,35 @@ function debounce(func, wait = 2, immediate = true) {
 }
 
 function changeShadow(e){
-    console.log("X:",e.x,"Width-Mid:",window.innerWidth / 2,"Y:",e.y,"Height-mid",(window.innerHeight / 2 ));
+    //console.log("X:",e.x,"Width-Mid:",window.innerWidth / 2,"Y:",e.y,"Height-mid",(window.innerHeight / 2 ));
     if(e.x < (window.innerWidth / 2) && e.y < (window.innerHeight / 2)){
-        console.log("Top left","X:",xValue,"Y:",yValue);
+        //console.log("Top left","X:",xValue,"Y:",yValue);
         //      0 < -10
-        if(xValue > -10)
+        if(xValue > -walk)
             {--xValue};
-        if(yValue >  -10)
+        if(yValue >  -walk)
             {--yValue};
         h1El.style.textShadow = `${xValue}px ${yValue}px 5px rgba(0,0,0,1)`;
     }else if(e.x > (window.innerWidth / 2) && e.y < (window.innerHeight / 2)){
-        console.log("top right",xValue,"Y:",yValue);
-        if(xValue < 10)
+        //console.log("top right",xValue,"Y:",yValue);
+        if(xValue < walk)
             {++xValue};
-        if(yValue >  -10)
+        if(yValue >  -walk)
             {--yValue};
-        h1El.style.textShadow = `${xValue}px ${yValue}px 5px rgba(0,0,0,1)`;
+        h1El.style.textShadow = `${xValue}px ${yValue}px 5px rgba(0,0,0,1),${xValue}px ${yValue}px 5px rgba(255,50,0,1)`;
     }else if(e.x < (window.innerWidth / 2) && e.y > (window.innerHeight / 2)){
-        if(xValue > -10)
+        if(xValue > -walk)
             {--xValue};
-        if(yValue <  10)
+        if(yValue <  walk)
             {++yValue};
-        console.log("bottom left",xValue,"Y:",yValue);
+        //console.log("bottom left",xValue,"Y:",yValue);
         h1El.style.textShadow = `${xValue}px ${yValue}px 5px rgba(0,0,0,1)`;
     }else if(e.x > (window.innerWidth / 2) && e.y > (window.innerHeight / 2)){
-        if(xValue < 10)
+        if(xValue < walk)
             {++xValue};
-        if(yValue <  10)
+        if(yValue <  walk)
             {++yValue};
-        console.log("bottom right",xValue,"Y:",yValue);
+        //console.log("bottom right",xValue,"Y:",yValue);
         h1El.style.textShadow = `${xValue}px ${yValue}px 5px rgba(0,0,0,1)`;
     }
 }
