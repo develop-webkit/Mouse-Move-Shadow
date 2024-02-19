@@ -1,10 +1,8 @@
 "use strict;"
 
-const heroEL = document.querySelector(".hero");
+const heroEl = document.querySelector(".hero");
 const h1El = document.querySelector("h1");
-let xValue = 0;
-let yValue = 0;
-const walk = 20;
+const walk = 100;
 
 function debounce(func, wait = 2, immediate = true) {
     let timeout;
@@ -28,37 +26,22 @@ function debounce(func, wait = 2, immediate = true) {
 }
 
 function changeShadow(e){
-    //console.log("X:",e.x,"Width-Mid:",window.innerWidth / 2,"Y:",e.y,"Height-mid",(window.innerHeight / 2 ));
-    if(e.x < (window.innerWidth / 2) && e.y < (window.innerHeight / 2)){
-        //console.log("Top left","X:",xValue,"Y:",yValue);
-        //      0 < -10
-        if(xValue > -walk)
-            {--xValue};
-        if(yValue >  -walk)
-            {--yValue};
-        h1El.style.textShadow = `${xValue}px ${yValue}px 5px rgba(0,0,0,1)`;
-    }else if(e.x > (window.innerWidth / 2) && e.y < (window.innerHeight / 2)){
-        //console.log("top right",xValue,"Y:",yValue);
-        if(xValue < walk)
-            {++xValue};
-        if(yValue >  -walk)
-            {--yValue};
-        h1El.style.textShadow = `${xValue}px ${yValue}px 5px rgba(0,0,0,1),${xValue}px ${yValue}px 5px rgba(255,50,0,1)`;
-    }else if(e.x < (window.innerWidth / 2) && e.y > (window.innerHeight / 2)){
-        if(xValue > -walk)
-            {--xValue};
-        if(yValue <  walk)
-            {++yValue};
-        //console.log("bottom left",xValue,"Y:",yValue);
-        h1El.style.textShadow = `${xValue}px ${yValue}px 5px rgba(0,0,0,1)`;
-    }else if(e.x > (window.innerWidth / 2) && e.y > (window.innerHeight / 2)){
-        if(xValue < walk)
-            {++xValue};
-        if(yValue <  walk)
-            {++yValue};
-        //console.log("bottom right",xValue,"Y:",yValue);
-        h1El.style.textShadow = `${xValue}px ${yValue}px 5px rgba(0,0,0,1)`;
-    }
+  const {offsetWidth: width, offsetHeight: height} = heroEl; 
+  let {offsetX: x, offsetY: y} = e;
+  if(e.target !== this){
+    x = x + e.target.offsetLeft;
+    y = y + e.target.offsetTop;
+  }
+
+  const xWalk = Math.round((x / width * walk) - (walk / 2));
+  const yWalk = Math.round((y / height * walk) - (walk / 2));
+
+  console.log(h1El.style)
+
+  h1El.style.textShadow = `
+    ${xWalk}px ${yWalk}px 3px rgba(${xWalk},${yWalk - xWalk},${yWalk},1)
+  `;
+  
 }
 
-heroEL.addEventListener('mousemove',debounce(changeShadow));
+heroEl.addEventListener('mousemove',debounce(changeShadow));
